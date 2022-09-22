@@ -10,11 +10,15 @@ const Navbar = () => {
     <div className="navbar">
       <div className="navContainer">
         <Link to="/" style={{color:"black" , textDecoration:"none"}}>
-          <span className="logo">lamabooking</span>
+          <span className="logo">Hotel Booking</span>
         </Link>
-        {user ? <span className="text-dark">{user.username}</span> :<div className="navItems">
-          <button className="navButton text-dark">Register</button>
+        {user ? <span className="userName">{user.username}</span> :<div className="navItems">
+          <Link to="/signup">
+            <button className="navButton text-dark">Register</button>
+          </Link>
+          <Link to="/login">
           <button className="navButton text-dark">Login</button>
+          </Link>
         </div>}
       </div>
     </div>

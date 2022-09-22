@@ -1,8 +1,8 @@
 import "./hotel.css";
-import Navbar from "../../components/navbar/Navbar";
-import Header from "../../components/header/Header";
-import MailList from "../../components/mailList/MailList";
-import Footer from "../../components/footer/Footer";
+import Navbar from "../../../components/navbar/Navbar";
+import Header from "../../../components/header/Header";
+import MailList from "../../../components/mailList/MailList";
+import Footer from "../../../components/footer/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleArrowLeft,
@@ -11,11 +11,11 @@ import {
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 import { useContext, useState } from "react";
-import useFetch from "../../hooks/userFetch";
+import useFetch from "../../../hooks/userFetch";
 import { useLocation, useNavigate } from "react-router-dom";
-import { SearchContext } from "../../context/SearchContext";
-import { AuthContext } from "../../context/AuthContext ";
-import Reserve from "../../components/reserve/Reserve";
+import { SearchContext } from "../../../context/SearchContext";
+import { AuthContext } from "../../../context/AuthContext ";
+import Reserve from "../../../components/reserve/Reserve";
 
 const Hotel = () => {
   const location = useLocation();
@@ -25,19 +25,20 @@ const Hotel = () => {
   const [openModal, setOpenModal] = useState(false);
 
   const { data, loading, error } = useFetch(`/hotels/find/${id}`);
-  const { user } = useContext(AuthContext)
-  const navigate = useNavigate()
-  const { dates, options } = useContext(SearchContext)
+  // console.log(data);
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { dates, options } = useContext(SearchContext);
 
-const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24
-function dayDifference(date1, date2) {
-  const timeDiff = Math.abs(date2.getTime() - date1.getTime())
-  const diffDays = Math.ceil(timeDiff / MILLISECONDS_PER_DAY)
-  return diffDays
-}
+  const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
+  function dayDifference(date1, date2) {
+    const timeDiff = Math.abs(date2.getTime() - date1.getTime());
+    const diffDays = Math.ceil(timeDiff / MILLISECONDS_PER_DAY);
+    return diffDays;
+  }
 
-const days = dayDifference(dates[0].endDate, dates[0].startDate);
-// console.log(dates);
+  const days = dayDifference(dates[0].endDate, dates[0].startDate);
+  // console.log(dates);
 
   const handleOpen = (i) => {
     setSlideNumber(i);
@@ -57,12 +58,12 @@ const days = dayDifference(dates[0].endDate, dates[0].startDate);
   };
 
   const handleClick = () => {
-    if (user){
-      setOpenModal(true)
-    }else{
-      navigate("/login")
+    if (user) {
+      setOpenModal(true);
+    } else {
+      navigate("/login");
     }
-  }
+  };
 
   return (
     <div>
@@ -136,7 +137,8 @@ const days = dayDifference(dates[0].endDate, dates[0].startDate);
                   excellent location score of 9.8!
                 </span>
                 <h2>
-                  <b>$ {days * data.cheapestPrice * options.room}</b> ({days} nights)
+                  <b>$ {days * data.cheapestPrice * options.room}</b> ({days}{" "}
+                  nights)
                 </h2>
                 <button onClick={handleClick}>Reserve or Book Now!</button>
               </div>
@@ -146,7 +148,7 @@ const days = dayDifference(dates[0].endDate, dates[0].startDate);
           <Footer />
         </div>
       )}
-      {openModal && <Reserve setOpen={setOpenModal} hotelId={id}/>}
+      {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />}
     </div>
   );
 };
