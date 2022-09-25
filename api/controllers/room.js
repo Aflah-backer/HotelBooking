@@ -31,21 +31,36 @@ export const updatedRoom = async (req, res, next) => {
     );
     res.status(200).json(updatedRoom);
   } catch (err) {
-    next(err); 
+    next(err);
   }
 };
 
+export const updatedRoomAvailabilty = async (req, res, next) => {
+  try {
+    await Room.updateOne(
+      { "roomNumbers._id": req.params.id },
+      {
+        $push: {
+          "roomNumbers.$.unavailableDates": req.body.dates,
+        },
+      }
+    );
+    res.status(200).json("Room status has been updated");
+  } catch (err) {
+    next(err);
+  }
+};
 //DELETE
 export const deleteRoom = async (req, res, next) => {
   const hotelId = req.params.hotelid;
   try {
     await Room.findByIdAndDelete(req.params.id);
     try {
-        await Hotel.findByIdAndUpdate(hotelId, {
-            $pull:{ rooms: req.params.id}
-        })
+      await Hotel.findByIdAndUpdate(hotelId, {
+        $pull: { rooms: req.params.id },
+      });
     } catch (err) {
-        next(err)
+      next(err);
     }
     res.status(200).json("Room has been deleted.");
   } catch (err) {
