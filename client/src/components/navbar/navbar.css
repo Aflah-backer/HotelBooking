@@ -25,3 +25,13 @@
   cursor: pointer;
   color: #003580;
 }
+
+.rUserName {
+  color: black;
+}
+
+.nButton {  
+  color: red;
+  border-radius: 5px;
+  border-color: #ffffff;
+}

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext ";
+import { Link } from "react-router-dom";
 import "./login.css";
 
 function Login() {
@@ -11,7 +12,7 @@ function Login() {
   });
   const { loading, error, dispatch } = useContext(AuthContext);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -22,8 +23,8 @@ function Login() {
     dispatch({ type: "LOGIN_START" });
     try {
       const res = await axios.post("/auth/login", credentials);
-      dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
-      navigate("/")
+      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+      navigate("/");
     } catch (err) {
       dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
     }
@@ -31,7 +32,7 @@ function Login() {
   return (
     <div className="login">
       <div className="lContainer">
-        <h2>login</h2>
+        <h2 className="rTitle">login</h2>
         <input
           type="text"
           placeholder="username"
@@ -51,7 +52,16 @@ function Login() {
         <button disabled={loading} onClick={handleClick} className="lButton">
           Login
         </button>
-        {error && <span>{error.message}</span>}
+        <hr className="rLine" />
+        <Link to="/signup">
+        {" "}
+        <p
+          className="rLinkTo"
+        >
+         Rgister a new Account ? SIGNUP{" "}
+        </p>
+      </Link>
+        {error && <span className="fError">{error.message}</span>}
       </div>
     </div>
   );
