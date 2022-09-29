@@ -7,14 +7,10 @@ import {
   updatedRoom,
   updatedRoomAvailabilty,
 } from "../controllers/room.js";
-import { createError } from "../utils/error.js";
+// import { createError } from "../utils/error.js";
 import { verifyAdmin } from "../utils/verifyToken.js";
 
 const router = express.Router();
-
-router.get("/", (req, res) => {
-  res.send("This is rooms");
-});
 
 //CREATE
 router.post("/:hotelId", verifyAdmin, createdRoom);
